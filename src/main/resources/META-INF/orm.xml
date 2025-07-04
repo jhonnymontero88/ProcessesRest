@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        version="2.2">
+
+    <!--<entity class="min.gob.ec.tracingservices.model.common.Files">
+        <attributes>
+            <id name="id">
+                <generated-value generator="files_seq" />
+                <sequence-generator name="files_seq" sequence-name="FILES_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>-->
+
+    <entity class="min.gob.ec.tracingservices.model.common.Menu">
+        <attributes>
+            <id name="id">
+                <generated-value generator="menu_seq" />
+                <sequence-generator name="menu_seq" sequence-name="MENU_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.common.Role">
+        <attributes>
+            <id name="id">
+                <generated-value generator="role_seq" />
+                <sequence-generator name="role_seq" sequence-name="ROLE_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.common.RoleMenu">
+        <attributes>
+            <id name="id">
+                <generated-value generator="rolemenu_seq" />
+                <sequence-generator name="rolemenu_seq" sequence-name="ROLEMENU_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.common.User">
+        <attributes>
+            <id name="id">
+                <generated-value generator="user_seq" />
+                <sequence-generator name="user_seq" sequence-name="USER_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.common.UserRole">
+        <attributes>
+            <id name="id">
+                <generated-value generator="userrole_seq" />
+                <sequence-generator name="userrole_seq" sequence-name="USERROLE_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <!--<entity class="min.gob.ec.tracingservices.model.notifications.Notification">
+        <attributes>
+            <id name="id">
+                <generated-value generator="notification_seq" />
+                <sequence-generator name="notification_seq" sequence-name="NOTIFICATION_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>-->
+
+    <!--<entity class="min.gob.ec.tracingservices.model.tracing.Tracing">
+        <attributes>
+            <id name="id">
+                <generated-value generator="tracing_seq" />
+                <sequence-generator name="tracing_seq" sequence-name="TRACING_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.tracing.TracingType">
+        <attributes>
+            <id name="id">
+                <generated-value generator="tracingtype_seq" />
+                <sequence-generator name="tracingtype_seq" sequence-name="TRACINGTYPE_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.tracing.Activity">
+        <attributes>
+            <id name="id">
+                <generated-value generator="activity_seq" />
+                <sequence-generator name="activity_seq" sequence-name="ACTIVITY_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>
+
+    <entity class="min.gob.ec.tracingservices.model.tracing.ActivityType">
+        <attributes>
+            <id name="id">
+                <generated-value generator="activitytype_seq" />
+                <sequence-generator name="activitytype_seq" sequence-name="ACTIVITYTYPE_SEQ" allocation-size="1" />
+            </id>
+        </attributes>
+    </entity>-->
+</entity-mappings>
