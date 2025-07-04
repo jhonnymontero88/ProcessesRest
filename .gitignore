@@ -1,9 +1,23 @@
+# Maven & Java
 target/
+*.class
+*.log
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+replay_pid*
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
 
-### STS ###
+# IDEs
+
+## STS
 .apt_generated
 .classpath
 .factorypath
@@ -12,19 +26,25 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+## IntelliJ IDEA
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+## NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
-/.nb-gradle/
+/. nb-gradle/
 build/
 
-### VS Code ###
+## VS Code
 .vscode/
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# BlueJ files
+*.ctxt
