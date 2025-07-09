@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Entity(name = "manualprocesses")
 @Getter @Setter
-@SequenceGenerator(name = "generic_sequence", sequenceName = "manualprocesses", allocationSize = 1)
+@SequenceGenerator(name = "generic_sequence", sequenceName = "manualprocesses_seq", allocationSize = 1)
 public class ManualProcesses extends AbstractEntity{
     @Column(nullable = false) 
     private String documenttype; 

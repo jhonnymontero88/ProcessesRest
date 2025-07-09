@@ -15,13 +15,13 @@ import java.util.Date;
 public class Files extends AbstractEntity {
 
     @Column(nullable = false)
-    private Integer entityId;
+    private Integer entityid;
 
     @Column(nullable = false)
-    private String entityName;
+    private String entityname;
 
     @Column(nullable = false)
-    private String fileName;
+    private String filename;
 
     @JsonIgnore
     private String path;

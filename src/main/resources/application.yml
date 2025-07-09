@@ -7,7 +7,7 @@ spring:
     name: processr
   jpa:
     database: postgresql
-    show-sql: false
+    show-sql: true
     hibernate:
       ddl-auto: update
       naming:
@@ -19,7 +19,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/processes
     
     username: postgres
-    password: jhonnyM
+    password: Ericmullo4
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 60000

@@ -7,21 +7,21 @@ import min.gob.ec.tracingservices.audit.AbstractEntity;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 
-@Entity(name = "task_activity_progress")
+@Entity(name = "taskactivityprogress")
 @Getter
 @Setter
 @SequenceGenerator(name = "generic_sequence", sequenceName = "task_activity_progress_seq", allocationSize = 1)
 public class TaskActivityProgress extends AbstractEntity {
 
     @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "taskid", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
     private Task task;
 
-    @Column(name = "creation_date", nullable = false)
+    @Column(name = "creationdate", nullable = false)
     private java.sql.Timestamp creationDate;
 
-    @Column(name = "creation_user", nullable = false, length = 100)
+    @Column(name = "creationuser", nullable = false, length = 100)
     private String creationUser;
 
     @Column(nullable = false, length = 150)

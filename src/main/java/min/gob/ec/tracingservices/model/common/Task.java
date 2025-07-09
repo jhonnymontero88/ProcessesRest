@@ -16,25 +16,25 @@ import java.util.List;
 @SequenceGenerator(name = "generic_sequence", sequenceName = "task_seq", allocationSize = 1)
 public class Task extends AbstractEntity {
 
-    @Column(name = "creation_date", nullable = false)
-    private Timestamp creationDate;
+    @Column(name = "creationdate", nullable = false)
+    private Timestamp creationdate;
 
-    @Column(name = "creation_user", nullable = false, length = 100)
-    private String creationUser;
+    @Column(name = "creationuser", nullable = false, length = 100)
+    private String creationuser;
 
-    @Column(name = "date_compliance", nullable = true)
-    private Timestamp dateCompliance;
+    @Column(name = "datecompliance", nullable = true)
+    private Timestamp datecompliance;
 
-    @Column(name = "date_init", nullable = true)
-    private LocalDateTime dateInit;
+    @Column(name = "dateinit", nullable = true)
+    private LocalDateTime dateinit;
 
     @Column(nullable = false, length = 255)
     private String description;
 
-    @Column(name = "entity_id", nullable = false)
-    private Integer entityId;
+    @Column(name = "EntityId", nullable = false)
+    private Integer entityid;
 
-    @Column(name = "entity_name", nullable = false, length = 150)
+    @Column(name = "EntityName", nullable = false, length = 150)
     private String entityName;
 
     @Column(nullable = false, length = 50)
@@ -46,11 +46,11 @@ public class Task extends AbstractEntity {
     @Column(nullable = false)
     private Boolean status;
 
-    @Column(name = "usuario_ejecutor_id", nullable = false)
-    private Integer usuarioEjecutorId;
+    @Column(name = "usuarioejecutorid", nullable = false)
+    private Integer usuarioejecutorid;
 
-    @Column(name = "usuario_monitoreo_id", nullable = false)
-    private Integer usuarioMonitoreoId;
+    @Column(name = "usuariomonitoreoid", nullable = false)
+    private Integer usuariomonitoreoid;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     @RestResource(exported = false)

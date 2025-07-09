@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,9 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -40,38 +40,37 @@ public class Common {
 
     @RequestMapping(value = "/getDate", method = RequestMethod.GET)
     public Date getDate() {
-        /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(commonService.getDate());*/
         return commonService.getDate();
     }
 
-
     @PostMapping(value = "/uploadfile")
     @Transactional(rollbackFor = {RuntimeException.class})
-    public String uploadFile(@RequestParam("file") MultipartFile file, String info) throws Exception{
-        try{
+    public String uploadFile(@RequestParam("file") MultipartFile file, String info) throws Exception {
+        try {
             Gson gson = new Gson();
             min.gob.ec.tracingservices.model.common.Files files =
                     gson.fromJson(info, min.gob.ec.tracingservices.model.common.Files.class);
-            List<min.gob.ec.tracingservices.model.common.Files> filesList = filesRepository.
-                    findByEntityNameAndEntityId(files.getEntityName(), files.getEntityId());
+
+            List<min.gob.ec.tracingservices.model.common.Files> filesList = filesRepository
+                    .findByEntitynameAndEntityid(files.getEntityname(), files.getEntityid());
+
             Optional<String> ext = Optional.ofNullable(file.getOriginalFilename())
                     .filter(f -> f.contains("."))
                     .map(f -> f.substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-            //
-            if(!ext.isPresent()){
+
+            if (!ext.isPresent()) {
                 throw new Exception("No se pudo determinar la extensión del archivo a cargar.");
             }
-            String fileName = files.getEntityName() + "_" + files.getEntityId() + "_" + (filesList.size() + 1) + "." + ext.get();
-            fileName = this.applicationPropierties.getDirectoryfiles() + fileName;
-            Path pt = Paths.get(fileName);
+
+            String filename = files.getEntityname() + "_" + files.getEntityid() + "_" + (filesList.size() + 1) + "." + ext.get();
+            filename = this.applicationPropierties.getDirectoryfiles() + filename;
+            Path pt = Paths.get(filename);
             Files.copy(file.getInputStream(), pt);
-            //
-            files.setPath(fileName);
-            // files.setFileDate(new Date());
+
+            files.setPath(filename);
             filesRepository.save(files);
-        }catch (Exception e){
-            throw new Exception("Error al almacenar el archivo"+e);
+        } catch (Exception e) {
+            throw new Exception("Error al almacenar el archivo: " + e.getMessage());
         }
 
         JSONObject jo = new JSONObject();
@@ -82,32 +81,35 @@ public class Common {
 
     @PostMapping(value = "/uploadfile1")
     @Transactional(rollbackFor = {RuntimeException.class})
-    public String uploadFile(String content, String info) throws Exception{
-        try{
+    public String uploadFile(String content, String info) throws Exception {
+        try {
             Gson gson = new Gson();
             min.gob.ec.tracingservices.model.common.Files files =
                     gson.fromJson(info, min.gob.ec.tracingservices.model.common.Files.class);
-            List<min.gob.ec.tracingservices.model.common.Files> filesList = filesRepository.
-                    findByEntityNameAndEntityId(files.getEntityName(), files.getEntityId());
-            Optional<String> ext = Optional.ofNullable(files.getFileName())
+
+            List<min.gob.ec.tracingservices.model.common.Files> filesList = filesRepository
+                    .findByEntitynameAndEntityid(files.getEntityname(), files.getEntityid());
+
+            Optional<String> ext = Optional.ofNullable(files.getFilename())
                     .filter(f -> f.contains("."))
-                    .map(f -> f.substring(files.getFileName().lastIndexOf(".") + 1));
-            //
-            if(!ext.isPresent()){
+                    .map(f -> f.substring(files.getFilename().lastIndexOf(".") + 1));
+
+            if (!ext.isPresent()) {
                 throw new Exception("No se pudo determinar la extensión del archivo a cargar.");
             }
-            String fileName = files.getEntityName() + "_" + files.getEntityId() + "_" + (filesList.size() + 1) + "." + ext.get();
-            fileName = this.applicationPropierties.getDirectoryfiles() + fileName;
-            Path pt = Paths.get(fileName);
+
+            String filename = files.getEntityname() + "_" + files.getEntityid() + "_" + (filesList.size() + 1) + "." + ext.get();
+            filename = this.applicationPropierties.getDirectoryfiles() + filename;
+            Path pt = Paths.get(filename);
+
             byte[] decodedImg = Base64.getDecoder()
                     .decode(content.getBytes(StandardCharsets.UTF_8));
             Files.write(pt, decodedImg);
-            //
-            files.setPath(fileName);
-            // files.setFileDate(new Date());
+
+            files.setPath(filename);
             filesRepository.save(files);
-        }catch (Exception e){
-            throw new Exception("Error al almacenar el archivo"+e);
+        } catch (Exception e) {
+            throw new Exception("Error al almacenar el archivo: " + e.getMessage());
         }
 
         JSONObject jo = new JSONObject();
@@ -121,34 +123,39 @@ public class Common {
         String status = "200";
         String message = "";
         String result = "";
-        String fileName = "";
+        String filename = "";
         String ext = "";
 
-        try{
+        try {
             min.gob.ec.tracingservices.model.common.Files files = filesRepository
                     .findById(id).orElse(new min.gob.ec.tracingservices.model.common.Files());
-            if(files.getId() == 0){
+
+            if (files.getId() == 0) {
                 throw new Exception("No se pudo encontrar el registro asociado.");
             }
 
             Path pt = Paths.get(files.getPath());
-            if(!Files.exists(pt))
-            {
-                throw new Exception("No se pudo encontrar el registro asociado.");
+
+            if (!Files.exists(pt)) {
+                throw new Exception("No se pudo encontrar el archivo asociado.");
             }
+
             Optional<String> extO = Optional.ofNullable(files.getPath())
                     .filter(f -> f.contains("."))
                     .map(f -> f.substring(files.getPath().lastIndexOf(".") + 1));
-            if(!extO.isPresent()){
+
+            if (!extO.isPresent()) {
                 throw new Exception("No se pudo determinar la extensión del archivo a cargar.");
             }
+
             ext = extO.get();
-            fileName = files.getFileName().replace(" ", "_").concat(".").concat(ext);
+            filename = files.getFilename().replace(" ", "_").concat(".").concat(ext);
+
             byte[] data = Files.readAllBytes(pt);
-            if(data.length > 0){
+            if (data.length > 0) {
                 result = Base64.getEncoder().encodeToString(data);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             status = "500";
             message = e.getMessage();
         }
@@ -157,7 +164,7 @@ public class Common {
         jo.appendField("status", status);
         jo.appendField("message", message);
         jo.appendField("data", result);
-        jo.appendField("name", fileName);
+        jo.appendField("name", filename);
         jo.appendField("ext", ext);
         return jo.toString();
     }
