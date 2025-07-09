@@ -7,7 +7,8 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import jakarta.persistence.*;
 // clave pablo.noboa@ministeriodegobierno.gob.ec F9E568EBB387C0A235B2164838B5F68D
 @Entity(name = "userd")
-@Getter @Setter
+@Getter 
+@Setter
 public class User {
     @Id
     private Integer id;
@@ -31,6 +32,11 @@ public class User {
     private Institution institution;
     @Column(nullable = false)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "userd", referencedColumnName = "id", nullable = false)
+    @RestResource(exported = false)
+    private UserInformation userinformation;
 
     @Override
     public String toString() {
