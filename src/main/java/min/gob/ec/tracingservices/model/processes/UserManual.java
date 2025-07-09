@@ -3,7 +3,7 @@ package min.gob.ec.tracingservices.model.processes;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import min.gob.ec.tracingservices.model.common.System;
+import min.gob.ec.tracingservices.model.common.SystemEntity;
 import min.gob.ec.tracingservices.model.common.Unit;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
 import min.gob.ec.tracingservices.model.common.Coordination;
@@ -46,7 +46,7 @@ public class UserManual extends AbstractEntity{
     @ManyToOne 
     @JoinColumn(name = "systemid", referencedColumnName = "id", nullable = false ) 
     @RestResource(exported = false)
-    private System system;
+    private SystemEntity system;
     
     @ManyToOne 
     @JoinColumn(name = "profileid", referencedColumnName = "id", nullable = false ) 

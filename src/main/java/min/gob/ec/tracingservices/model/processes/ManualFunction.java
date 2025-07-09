@@ -9,6 +9,7 @@ import min.gob.ec.tracingservices.audit.AbstractEntity;
 import min.gob.ec.tracingservices.model.common.Coordination;
 import min.gob.ec.tracingservices.model.common.InternalInformation;
 import min.gob.ec.tracingservices.model.common.StatesSectionDocuments;
+import min.gob.ec.tracingservices.model.common.SystemEntity;
 import min.gob.ec.tracingservices.model.common.Unit;
 
 @Entity(name = "manualfunction")
@@ -48,7 +49,7 @@ public class ManualFunction extends AbstractEntity{
     @ManyToOne 
     @JoinColumn(name = "systemid", referencedColumnName = "id", nullable = false ) 
     @RestResource(exported = false)
-    private System system;
+    private SystemEntity system;
 }
 
 
