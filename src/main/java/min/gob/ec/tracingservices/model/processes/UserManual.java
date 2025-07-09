@@ -16,7 +16,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @Entity(name = "usermanual")
 @Getter @Setter
 @SequenceGenerator(name = "generic_sequence", sequenceName = "usermanual_seq", allocationSize = 1)
-//public class UserManual extends ManualProcesses{
 public class UserManual extends AbstractEntity{
     @Column(nullable = false)
     private String documenttype;

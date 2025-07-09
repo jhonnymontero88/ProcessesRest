@@ -25,9 +25,9 @@ public class ManualProcesses extends AbstractEntity{
     private String subprcesses;
 
     @ManyToOne 
-    @JoinColumn(name = "coordinationid", referencedColumnName = "id", nullable = false ) // union de tablas Coordination con ManualProcesses
+    @JoinColumn(name = "coordinationid", referencedColumnName = "id", nullable = false ) 
     @RestResource(exported = false)
-    private Coordination coordination; // todo el contenido del objeto relacionado 
+    private Coordination coordination; 
 
     @ManyToOne 
     @JoinColumn(name = "internalInformationid", referencedColumnName = "id", nullable = false)

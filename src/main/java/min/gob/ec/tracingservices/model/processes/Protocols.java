@@ -14,7 +14,6 @@ import min.gob.ec.tracingservices.model.common.Unit;
 @Entity(name = "protocols")
 @Getter @Setter
 @SequenceGenerator(name = "generic_sequence", sequenceName = "protocols_seq", allocationSize = 1)
-//public class Protocols extends ManualFunction{
 public class Protocols extends AbstractEntity{
     @Column(nullable = false)
     private String documenttype;
