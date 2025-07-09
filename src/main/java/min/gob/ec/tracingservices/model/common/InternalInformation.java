@@ -1,27 +1,28 @@
 package min.gob.ec.tracingservices.model.common;
 
+import lombok.Getter;
+import lombok.Setter;
+import min.gob.ec.tracingservices.audit.AbstractEntity;
 import java.sql.Date;
 import org.springframework.data.rest.core.annotation.RestResource;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 
-@Entity(name = "internalInformation")
+@Entity(name = "internalinformation")
 @Getter @Setter
-@SequenceGenerator(name = "generic_sequence", sequenceName = "internalInformation", allocationSize = 1)
-public class InternalInformation {
+@SequenceGenerator(name = "generic_sequence", sequenceName = "internalinformation_seq", allocationSize = 1)
+public class InternalInformation extends AbstractEntity{
     @Column(nullable = false) 
     private String responsable; 
     @Column(nullable = false)
     private String backup;
     @Column(nullable = false)
-    private String documentRequeriment;
+    private String documentrequeriment;
     @Column(nullable = false)
-    private Date dateRequest;
+    private Date daterequest;
 
     @ManyToOne 
-    @JoinColumn(name = "coordinationID", referencedColumnName = "id", nullable = false ) 
+    @JoinColumn(name = "coordinationid", referencedColumnName = "id", nullable = false ) 
     @RestResource(exported = false)
     private Coordination coordination; 
 }

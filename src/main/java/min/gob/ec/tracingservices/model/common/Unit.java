@@ -1,19 +1,15 @@
 package min.gob.ec.tracingservices.model.common;
 
-import org.springframework.data.rest.core.annotation.RestResource;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import lombok.Getter;
 import lombok.Setter;
+import min.gob.ec.tracingservices.audit.AbstractEntity;
+import org.springframework.data.rest.core.annotation.RestResource;
+import jakarta.persistence.*;
 
 @Entity(name = "unit")
 @Getter @Setter
-@SequenceGenerator(name = "generic_sequence", sequenceName = "unit", allocationSize = 1)
-public class Unit {
+@SequenceGenerator(name = "generic_sequence", sequenceName = "unit_seq", allocationSize = 1)
+public class Unit extends AbstractEntity{
     @Column(nullable = false)
     private String delegates;
     @Column(nullable = false)
@@ -22,12 +18,12 @@ public class Unit {
     private String macroprocesses;
 
     @ManyToOne 
-    @JoinColumn(name = "coordinationID", referencedColumnName = "id", nullable = false ) 
+    @JoinColumn(name = "coordinationid", referencedColumnName = "id", nullable = false ) 
     @RestResource(exported = false)
     private Coordination coordination; 
     
     @ManyToOne 
-    @JoinColumn(name = "internalInformationID", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "internalinformationid", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
     private Unit unit;
 }

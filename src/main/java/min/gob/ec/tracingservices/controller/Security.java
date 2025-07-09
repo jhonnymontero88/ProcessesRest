@@ -1,5 +1,6 @@
 package min.gob.ec.tracingservices.controller;
 
+import java.lang.System;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import min.gob.ec.tracingservices.model.common.*;

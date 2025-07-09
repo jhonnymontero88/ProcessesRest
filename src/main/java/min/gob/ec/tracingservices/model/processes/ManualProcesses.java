@@ -1,42 +1,41 @@
 package min.gob.ec.tracingservices.model.processes;
 
-
+import min.gob.ec.tracingservices.audit.AbstractEntity;
 import min.gob.ec.tracingservices.model.common.Coordination;
 import min.gob.ec.tracingservices.model.common.InternalInformation;
 import min.gob.ec.tracingservices.model.common.Unit;
-
 import org.springframework.data.rest.core.annotation.RestResource;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity(name = "manualProcesses")
+@Entity(name = "manualprocesses")
 @Getter @Setter
-@SequenceGenerator(name = "generic_sequence", sequenceName = "manualProcesses", allocationSize = 1)
-public class ManualProcesses {
+@SequenceGenerator(name = "generic_sequence", sequenceName = "manualprocesses", allocationSize = 1)
+public class ManualProcesses extends AbstractEntity{
     @Column(nullable = false) 
-    private String documentType; 
+    private String documenttype; 
     @Column(nullable = false)
     private String processes;
     @Column(nullable = false)
-    private String documentName;
+    private String documentname;
     @Column(nullable = false)
-    private String subProcessesName;
+    private String subprocessesname;
     @Column(nullable = false)
-    private String subPrcesses;
+    private String subprcesses;
 
     @ManyToOne 
-    @JoinColumn(name = "coordinationID", referencedColumnName = "id", nullable = false ) // union de tablas Coordination con ManualProcesses
+    @JoinColumn(name = "coordinationid", referencedColumnName = "id", nullable = false ) // union de tablas Coordination con ManualProcesses
     @RestResource(exported = false)
     private Coordination coordination; // todo el contenido del objeto relacionado 
 
     @ManyToOne 
-    @JoinColumn(name = "internalInformationID", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "internalInformationid", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
     private InternalInformation internalInformation;
 
     @ManyToOne
-    @JoinColumn(name = "unitID", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "unitid", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
     private Unit unit;
 }

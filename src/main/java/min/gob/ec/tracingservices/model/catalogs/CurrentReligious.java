@@ -14,5 +14,4 @@ public class CurrentReligious extends AbstractEntity {
     @Column(nullable = false)
     private String name;
     private boolean status;
-
 }
