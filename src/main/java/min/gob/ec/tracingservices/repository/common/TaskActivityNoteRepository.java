@@ -14,4 +14,5 @@ public interface TaskActivityNoteRepository extends ListCrudRepository<TaskActiv
     @RestResource(path = "fAllOByName")
     @Query("SELECT t FROM min.gob.ec.tracingservices.model.common.TaskActivityNote t ORDER BY t.note")
     List<TaskActivityNote> fAllOByName();
-}
+    // prueba
+} 

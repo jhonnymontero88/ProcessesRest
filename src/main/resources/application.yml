@@ -19,11 +19,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/processes
     
     username: postgres
-<<<<<<< HEAD
+
     password: Ericmullo4
-=======
-    password: 2419338
->>>>>>> a4c9110b1432fa612c7acdcc6b2a2fa9164bac70
+
+    
+
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 60000
