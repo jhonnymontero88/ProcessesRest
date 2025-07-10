@@ -31,10 +31,10 @@ public class Task extends AbstractEntity {
     @Column(nullable = false, length = 255)
     private String description;
 
-    @Column(name = "EntityId", nullable = false)
+    @Column(name = "entityid", nullable = false)
     private Integer entityid;
 
-    @Column(name = "EntityName", nullable = false, length = 150)
+    @Column(name = "entityname", nullable = false, length = 150)
     private String entityName;
 
     @Column(nullable = false, length = 50)
