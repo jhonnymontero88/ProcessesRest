@@ -22,8 +22,6 @@ spring:
 
     password: 2419338
 
-    
-
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 60000
