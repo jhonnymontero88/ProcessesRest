@@ -3,7 +3,6 @@ package min.gob.ec.tracingservices.model.suiosr;
 import lombok.Getter;
 import lombok.Setter;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
-import min.gob.ec.tracingservices.model.common.Parish;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import jakarta.persistence.*;
@@ -13,18 +12,16 @@ import jakarta.persistence.*;
 @Setter
 @SequenceGenerator(name = "generic_sequence", sequenceName = "filial_seq", allocationSize = 1)
 public class Filial extends AbstractEntity {
+
     @Column(nullable = false, length = 2048)
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
     private Organization organization;
+
     private boolean matrix;
-    @ManyToOne
-    @JoinColumn(name = "parish_id", referencedColumnName = "id")
-    @RestResource(exported = false)
-    private Parish parish;
+
     private String address;
-
-
 }

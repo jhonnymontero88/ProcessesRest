@@ -1,6 +1,6 @@
 package min.gob.ec.tracingservices.repository.common;
 
-import min.gob.ec.tracingservices.model.common.Charge;
+
 import min.gob.ec.tracingservices.model.common.DocumentType;
 import min.gob.ec.tracingservices.model.common.Person;
 import min.gob.ec.tracingservices.model.common.User;

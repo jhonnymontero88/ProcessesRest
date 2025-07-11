@@ -1,6 +1,6 @@
 package min.gob.ec.tracingservices.repository.suiosr;
 
-import min.gob.ec.tracingservices.model.common.Parish;
+
 import min.gob.ec.tracingservices.model.common.Person;
 import min.gob.ec.tracingservices.model.suiosr.Organization;
 import org.springframework.data.domain.Page;

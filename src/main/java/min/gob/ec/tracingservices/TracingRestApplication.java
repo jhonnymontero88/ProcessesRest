@@ -30,32 +30,29 @@ public class TracingRestApplication {
         return RepositoryRestConfigurer.withConfig(config -> {
             config.exposeIdsFor(Notification.class);
             config.exposeIdsFor(Role.class);
-            config.exposeIdsFor(Menu.class);
+            
             config.exposeIdsFor(User.class);
             config.exposeIdsFor(Files.class);
             //
-            config.exposeIdsFor(Country.class);
+            
             config.exposeIdsFor(Person.class);
             config.exposeIdsFor(Location.class);
-            config.exposeIdsFor(Canton.class);
-            config.exposeIdsFor(Parish.class);
-            config.exposeIdsFor(Province.class);
+            
             config.exposeIdsFor(CurrentReligious.class);
             config.exposeIdsFor(StatusOrganization.class);
             config.exposeIdsFor(TypeOrganization.class);
             config.exposeIdsFor(TypeReform.class);
             config.exposeIdsFor(TypeProcedure.class);
             config.exposeIdsFor(Institution.class);
-            config.exposeIdsFor(Charge.class);
             config.exposeIdsFor(Expedient.class);
             config.exposeIdsFor(Filial.class);
             config.exposeIdsFor(Location.class);
             config.exposeIdsFor(Organization.class);
             config.exposeIdsFor(Reform.class);
             config.exposeIdsFor(Nationality.class);
-            config.exposeIdsFor(ContactFilial.class);
+            
             config.exposeIdsFor(Contact.class);
-            config.exposeIdsFor(Member.class);
+            
         });
     }
 }
