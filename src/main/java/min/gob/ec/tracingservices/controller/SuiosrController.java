@@ -5,8 +5,8 @@ import min.gob.ec.tracingservices.model.suiosr.*;
 import min.gob.ec.tracingservices.repository.common.*;
 import min.gob.ec.tracingservices.repository.suiosr.*;
 import min.gob.ec.tracingservices.security.UserPrincipal;
-import min.gob.ec.tracingservices.service.common.OrganizationService;
-import min.gob.ec.tracingservices.util.OrganizationSpecification;
+//import min.gob.ec.tracingservices.service.common.OrganizationService; DEPURACION 2025
+//import min.gob.ec.tracingservices.util.OrganizationSpecification; DEPURACION 2025
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang3.EnumUtils;
@@ -14,76 +14,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
-//import org.springframework.scheduling.config.Task;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.transaction.ReactiveTransaction;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import min.gob.ec.tracingservices.repository.suiosr.OrganizationRepository;
-import min.gob.ec.tracingservices.model.suiosr.Organization;
 
+import jakarta.transaction.Transactional;
 
-
-
-
-
-import static min.gob.ec.tracingservices.util.UtilSuiosr.createResponse;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static min.gob.ec.tracingservices.util.UtilSuiosr.createResponse;
 
 @CrossOrigin
 @RestController
 @RequestMapping("suiosr")
 public class SuiosrController {
 
-    @Autowired
-    private OrganizationRepository organizationRepository;
-    @Autowired
-    private PersonRepository personRepository;
-    @Autowired
-    private ContactRepository contactRepository;
-    @Autowired
-    private FilialRepository filialRepository;
-    @Autowired
-    private ChargeRepository chargeRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private ExpedientRepository expedientRepository;
-    @Autowired
-    private TracingRepository tracingRepository;
-    @Autowired
-    private FilesRepository filesRepository;
-    @Autowired
-    private OrganizationService organizationService;
-
+    //@Autowired private OrganizationRepository organizationRepository; DEPURACION 2025
+    @Autowired private PersonRepository personRepository;
+    @Autowired private ContactRepository contactRepository;
+    @Autowired private FilialRepository filialRepository;
+    @Autowired private ExpedientRepository expedientRepository;
+    @Autowired private TracingRepository tracingRepository;
+    @Autowired private FilesRepository filesRepository;
+    @Autowired private ReformRepository reformRepository;
+    @Autowired private LocationRepository locationRepository;
+    //@Autowired private OrganizationService organizationService; DEPURACION 2025
 
     String status = "";
     String message = "";
-    @Autowired
-    private ReformRepository reformRepository;
-    @Autowired
-    private LocationRepository locationRepository;
 
+    // ============================== PERSONA ==============================
 
-    //CONTROLADOR PARA CONSULTAR POR CI SI EXISTE UNA PERSONA
     @GetMapping("ci/{documentNumber}")
     public String findByCi(@PathVariable String documentNumber) {
         status = "200";
         try {
             Person person = personRepository.findByCi(documentNumber);
-            if (person == null) {
-                throw new Exception("Persona no Encontrada");
-            }
+            if (person == null) throw new Exception("Persona no Encontrada");
             message = "Persona encontrada";
             JSONObject jo = createResponse(status, message);
             jo.appendField("person", person);
@@ -92,20 +60,17 @@ public class SuiosrController {
             status = "404";
             message = e.getMessage();
             JSONObject jo = createResponse(status, message);
-            jo.appendField("error_details",e.toString());
+            jo.appendField("error_details", e.toString());
             return jo.toString();
         }
     }
 
-    //CONTROLADOR PARA CONSULTAR POR PASAPORTE SI EXISTE UNA PERSONA
     @GetMapping("passport/{documentNumber}/{nationality}")
     public String findByPassport(@PathVariable String documentNumber, @PathVariable String nationality) {
         status = "200";
         try {
             Person person = personRepository.findByPassport(documentNumber, nationality);
-            if (person == null) {
-                throw new Exception("Persona no Encontrada");
-            }
+            if (person == null) throw new Exception("Persona no Encontrada");
             message = "Persona encontrada";
             JSONObject jo = createResponse(status, message);
             jo.appendField("person", person);
@@ -114,53 +79,71 @@ public class SuiosrController {
             status = "404";
             message = e.getMessage();
             JSONObject jo = createResponse(status, message);
-            jo.appendField("error_details",e.toString());
+            jo.appendField("error_details", e.toString());
             return jo.toString();
         }
     }
 
-    // DEPURACION 2025
-    /*//CONTROLADOR PARA CREAR NUEVA ORGANIZACIÓN (PrimerTAB)
-    @RequestMapping(value = "/saveorganization", method = RequestMethod.POST)
-    public String saveOrganization (@RequestBody Organization organization){
-        Organization organizationBD;
+    @RequestMapping(value = "/saveperson", method = RequestMethod.POST)
+    public String savePerson(@RequestBody Person person) {
+        status = "200";
         try {
-            organizationBD = organizationRepository.findFirstByName(organization.getName());
+            Person personSelected = personRepository.findByCi(person.getDocumentNumber());
+            if (personSelected != null) {
+                throw new Exception("Ya existe persona con ese número de Documento.");
+            }
+            personRepository.save(person);
+            message = "Persona guardada con éxito.";
+            JSONObject jo = createResponse(status, message);
+            jo.appendField("person", person);
+            return jo.toString();
+        } catch (Exception e) {
+            status = "400";
+            message = e.getMessage();
+            JSONObject jo = createResponse(status, message);
+            jo.appendField("error_details", e.getMessage());
+            return jo.toString();
+        }
+    }
+
+    //CONTROLADOR PARA CREAR NUEVA ORGANIZACIÓN (PrimerTAB)
+    /*@RequestMapping(value = "/saveorganization", method = RequestMethod.POST) // DEPURACION 2025
+    public String saveOrganization(@RequestBody Organization organization) {
+        try {
+            Organization organizationBD = organizationRepository.findFirstByName(organization.getName());
             if (organizationBD != null && !organizationBD.getId().equals(organization.getId())) {
                 throw new Exception("Ya existe una organización con el mismo nombre.");
             }
-            organizationBD = new Organization();
-            boolean isNew = true;
-            if(organization.getId() != null && organization.getId() > 0){
-                organizationBD = organizationRepository.findById(organization.getId()).orElse(new Organization());
-                isNew = false;
-            }
-            //
+
+            boolean isNew = organization.getId() == null || organization.getId() <= 0;
+            organizationBD = isNew ? new Organization() : organizationRepository.findById(organization.getId()).orElse(new Organization());
+
             organizationBD.setInstitution(organization.getInstitution());
             organizationBD.setRuc(organization.getRuc());
             organizationBD.setName(organization.getName());
             organizationBD.setEmail(organization.getEmail());
             organizationBD.setPhone(organization.getPhone());
-            organizationBD.setTypeOrganization(organization.getTypeOrganization());
-            organizationBD.setCurrentReligious(organization.getCurrentReligious());
-            organizationBD.setStatusOrganization(organization.getStatusOrganization());
+            //organizationBD.setTypeOrganization(organization.getTypeOrganization()); DEPURACION 2025
+            //organizationBD.setCurrentReligious(organization.getCurrentReligious()); DEPURACION 2025
+            //organizationBD.setStatusOrganization(organization.getStatusOrganization()); DEPUARACION 2025
             organizationBD.setInternalState(organization.getInternalState());
-            if(isNew){
-                organizationBD.setRegistrationCompleted(false);
-            }
-            //
+            if (isNew) organizationBD.setRegistrationCompleted(false);
+
             organizationRepository.save(organizationBD);
-            if(isNew){
+
+            if (isNew) {
                 Filial filialMatrix = new Filial();
                 filialMatrix.setOrganization(organizationBD);
                 filialMatrix.setMatrix(true);
                 filialMatrix.setName(organizationBD.getName());
                 filialRepository.save(filialMatrix);
             }
-            message="Organización guardada con éxito";
+
+            message = "Organización guardada con éxito";
             JSONObject jo = createResponse("200", message);
             jo.appendField("obj", organizationBD);
             return jo.toString();
+
         } catch (Exception e) {
             message = e.getMessage();
             JSONObject jo = createResponse("400", message);
@@ -169,33 +152,19 @@ public class SuiosrController {
         }
     }*/
 
-    //CONTROLADOR PARA CREAR REPRESENTANTE LEGAL
-    @RequestMapping(value = "/legalrepresentative", method = RequestMethod.POST)
-    public String saveContact (@RequestBody Member dataMember){
+    // ============================== EXPEDIENTE ==============================
+    
+    @RequestMapping(value = "/saveexpedient", method = RequestMethod.POST)
+    public String saveExpedient(@RequestBody Expedient expedient) {
         status = "200";
         try {
-            Filial filialSelected = filialRepository.findFirstByOrganizationIdAndMatrixTrue(dataMember.getOrganization().getId());
-            Charge chargeSelected = chargeRepository.findChargeByCode("representante_legal");
-            // Relación miembro Representante Legal
-            Member newMember = new Member();
-            newMember.setId(dataMember.getId());
-            newMember.setPerson(dataMember.getPerson());
-            newMember.setCharge(chargeSelected);
-            newMember.setFilial(filialSelected);
-            newMember.setStatus(true);
-            //
-            if(!filialSelected.getOrganization().getRegistrationCompleted()){
-                filialSelected.getOrganization().setRegistrationCompleted(true);
-                organizationRepository.save(filialSelected.getOrganization());
-            }
-            //
-            memberRepository.save(newMember);
-            message = "Representante Legal guardado con éxito.";
+            expedientRepository.save(expedient);
+            message = "Expediente guardado con éxito.";
             JSONObject jo = createResponse(status, message);
-            jo.appendField("obj", newMember);
+            //jo.appendField("id_organization", expedient.getOrganization().getId()); DEPURACION 2025
             return jo.toString();
         } catch (Exception e) {
-            status="400";
+            status = "400";
             message = e.getMessage();
             JSONObject jo = createResponse(status, message);
             jo.appendField("error_details", e.getMessage());
@@ -203,137 +172,7 @@ public class SuiosrController {
         }
     }
 
-    //CONTROLADOR PARA CREAR NUEVO EXPEDIENTE
-    @RequestMapping(value = "/saveexpedient", method = RequestMethod.POST)
-    public String saveExpedient (@RequestBody Expedient expedient){
-        status="200";
-        try {
-           expedientRepository.save(expedient);
-            message = "Expediente guardado con éxito.";
-            JSONObject jo = createResponse(status, message);
-            jo.appendField("id_organization", expedient.getOrganization().getId());
-            return jo.toString();
-        } catch (Exception e) {
-            status="400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status, message);
-            jo.appendField("error_details", e.getMessage());
-            return jo.toString();
-        }
-    }
-
-    //CONTROLADOR PARA CREAR PERSONA
-    @RequestMapping(value = "/saveperson", method = RequestMethod.POST)
-    public String savePerson (@RequestBody Person person){
-        status="200";
-        try {
-
-            Person personSelected = personRepository.findByCi(person.getDocumentNumber());
-            if(personSelected != null){
-                throw new Exception("Ya existe persona con ese número de Documento.");
-            }
-            else {
-                personRepository.save(person);
-                message="Persona guardada con éxito.";
-                JSONObject jo = createResponse(status,message);
-                jo.appendField("person", person);
-                return jo.toString();
-            }
-        } catch (Exception e) {
-            status="400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
-            jo.appendField("error_details", e.getMessage());
-            return jo.toString();
-        }
-    }
- 
-
-    // CONTROLADOR PARA CREAR MIEMBRO
-    @RequestMapping(value = "/savemember", method = RequestMethod.POST)
-    public String saveMember(@RequestBody Map<String, Object> dataMember) {
-        status="200";
-        try {
-
-            Map<String, Object> personMap = (Map<String, Object>) dataMember.get("person");
-            Map<String, Object> memberMap = (Map<String, Object>) dataMember.get("member");
-            Map<String, Object> filialMap = (Map<String, Object>) memberMap.get("filial");
-            Map<String, Object> chargeMap = (Map<String, Object>) memberMap.get("charge");
-            // Verificar si la persona existe
-            Person existingPerson = personRepository.findById((Integer) personMap.get("id")).orElse(null);
-            if (existingPerson == null) {
-                throw new Exception("Persona no encontrada.");
-            }
-            // Verificar si la persona tiene al menos un contacto registrado
-            List<Contact> contacts = contactRepository.findByPersonId(existingPerson.getId());
-            if (contacts.isEmpty()) {
-                throw new Exception("Debe registrar al menos un contacto antes de crear un miembro.");
-            }
-            // Seleccionar Filial y Cargo para Miembro
-            Filial filialSelected = filialRepository.findByName((String) filialMap.get("name"));
-            Charge chargeSelected = chargeRepository.findByName((String) chargeMap.get("name"));
-            // Verificar si ya existe un miembro con ese cargo y que sea directivo en la misma filial
-            // se comenta la verificacion, 11/11/2024 Jessica pide que se pueda registrar mas cargos directivos en una misma filial
-            //List<Member> existingMembers = memberRepository.findByFilialAndChargeAndDirectiveTrue(filialSelected, chargeSelected);
-            // Si existe un miembro con ese cargo y es directivo, verificar el estado
-            //for (Member existingMember : existingMembers) {
-            //    if (existingMember.isStatus()) { // Si el miembro está activo
-            //        throw new Exception("Ya existe un miembro con cargo directivo en esta filial. No se puede agregar otro miembro con el mismo cargo.");
-            //    }
-            //}
-            // Crear y guardar el nuevo miembro
-            Member newMember = new Member();
-            newMember.setPerson(existingPerson);
-            newMember.setCharge(chargeSelected);
-            newMember.setFilial(filialSelected);
-            newMember.setStatus((Boolean) memberMap.get("status"));
-            String dateInitialString = (String) memberMap.get("dateInitial");
-            if(dateInitialString == null){
-                newMember.setDateInitial(null);
-            }else {
-                Date dateInitial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateInitialString);
-                newMember.setDateInitial(dateInitial);
-            }
-            String dateFinalString = (String) memberMap.get("dateEnd");
-            if(dateFinalString == null){
-                newMember.setDateEnd(null);
-            }else{
-                Date dateFinal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(dateFinalString);
-                newMember.setDateEnd(dateFinal);
-            }
-
-            memberRepository.save(newMember);
-            message="Miembro guardado con éxito.";
-            JSONObject jo = createResponse(status,message);
-            return jo.toString();
-        } catch (Exception e) {
-            status = "400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
-            return jo.toString();
-        }
-    }
-
-    @GetMapping("findExpedient/{idOrganization}")
-    public String findExpedienteByOrganization(@PathVariable Integer idOrganization) {
-        status = "200";
-        try {
-            Expedient expedient = expedientRepository.findFirstByOrganizationId(idOrganization);
-            if (expedient == null) {
-                throw new Exception("Expediente no encontrado");
-            }
-            message="Expediente encontrado";
-            JSONObject jo = createResponse(status,message);
-            jo.appendField("expedient", expedient);
-            return jo.toString();
-        } catch (Exception e) {
-            status="400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
-            jo.appendField("error_details", e.getMessage());
-            return jo.toString();
-        }
-    }
+    // ============================== TRACING ==============================
 
     //PRUEBAS 2025 DEPURACION
     /*@GetMapping("findTracing/{idOrganizacion}")
@@ -341,9 +180,8 @@ public class SuiosrController {
         status = "200";
         try {
             List<Tracing> tracings = tracingRepository.fAllOByOrganization(idOrganizacion);
-            if (tracings == null) {
-                throw new Exception("Error al encontrar Acciones");
-            }
+            if (tracings == null) throw new Exception("Error al encontrar Acciones");
+
             message = "Acciones encontradas";
             JSONObject jo = createResponse(status, message);
             JSONArray tracingsArray = new JSONArray();
@@ -351,23 +189,16 @@ public class SuiosrController {
                 JSONObject tracingObject = new JSONObject();
                 tracingObject.appendField("creationUser", tracing.getCreationUser());
                 tracingObject.appendField("observation", tracing.getObservation());
-                tracingObject.appendField("dateAnswer", tracing.getDateAnswer() != null
-                    ? tracing.getDateAnswer().toString()
-                    : ""); // Verificación de nulo
-                tracingObject.appendField("organization", tracing.getOrganization().getName());
-                tracingObject.appendField("creationDate", tracing.getCreationDate() != null 
-                    ? tracing.getCreationDate().toString() 
-                    : ""); // Verificación de nulo
+                tracingObject.appendField("dateAnswer", tracing.getDateAnswer() != null ? tracing.getDateAnswer().toString() : "");
+                //tracingObject.appendField("organization", tracing.getOrganization().getName()); DEPURACION 2025
+                tracingObject.appendField("creationDate", tracing.getCreationDate() != null ? tracing.getCreationDate().toString() : "");
                 tracingObject.appendField("actionsDoneMDG", tracing.getActionsDoneMDG());
                 tracingObject.appendField("registered", tracing.isRegistered());
                 tracingObject.appendField("documentIn", tracing.getDocumentIn());
                 tracingObject.appendField("documentOut", tracing.getDocumentOut());
-                tracingObject.appendField("dateRequest", tracing.getDateRequest() != null
-                    ? tracing.getDateRequest().toString()
-                    : ""); // Verificación de nulo
-                tracingObject.appendField("typeprocedure", tracing.getTypeprocedure());
+                tracingObject.appendField("dateRequest", tracing.getDateRequest() != null ? tracing.getDateRequest().toString() : "");
+                //tracingObject.appendField("typeprocedure", tracing.getTypeprocedure()); // DEPURACION 2025
                 tracingObject.appendField("id", tracing.getId());
-                
                 tracingsArray.add(tracingObject);
             }
             jo.appendField("tracings", tracingsArray);
@@ -379,12 +210,10 @@ public class SuiosrController {
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
-    }*/
-    
-
+    }
 
     @RequestMapping(value = "/removefilefromorganization", method = RequestMethod.POST)
-    @Transactional(rollbackFor = {RuntimeException.class})
+    //@Transactional(rollbackFor = {RuntimeException.class}) DEPURACION 2025
     public String removeFileFromProgress(@Param("id") Integer id) {
         String message = "Proceso realizado con éxito.";
         String state = "200";
@@ -396,7 +225,7 @@ public class SuiosrController {
             if(files.getId() == null || files.getId() == 0) {
                 throw new Exception("No se pudo obtener los datos del archivo");
             }
-/*
+
             if(files.getEntityName().equals("activityprogress")){
                 ActivityProgress activityProgress = activityProgressRepository.findById(files.getEntityId()).orElse(new ActivityProgress());
                 if(activityProgress.getId() == null || activityProgress.getId() == 0) {
@@ -418,7 +247,7 @@ public class SuiosrController {
                 files.setActive(false);
                 filesRepository.save(files);
             }
-*/
+
             files.setActive(false);
             filesRepository.save(files);
         }catch (Exception e){
@@ -461,7 +290,7 @@ public class SuiosrController {
             message = "Organizaciones encontradas";
 
             JSONObject jo = createResponse(status, message);
-            jo.appendField("organizations", organizations);
+            jo.appendField("organizations", organizations); 
             return jo.toString();
         } catch (Exception e) {
             status = "400";
@@ -477,12 +306,12 @@ public class SuiosrController {
         return organizationService.searchOrganizations(query);
     }
 
-    @GetMapping("/organizations")
+    @GetMapping("/organizations") 
     public Page<Organization> getOrganizations(@RequestParam String query, Pageable pageable) {
     return organizationRepository.findByNameContainingIgnoreCase(query, pageable);
     }
 
-    @GetMapping("getReportOrganization/{id}")
+    @GetMapping("getReportOrganization/{id}") // DEPURACION 2025
     public String getTaskMonitorRevision(@PathVariable String id) throws IOException {
         status = "200";
         try {
@@ -514,13 +343,10 @@ public class SuiosrController {
     public String findMatrizForFilial(@PathVariable String organizationId) {
         String status = "200";
         String message;
-
         JSONObject response = new JSONObject();
-        try {
-            // Validar y convertir el ID de organización
-            int intOrgId = Integer.parseInt(organizationId);
 
-            // Buscar la primera filial con matriz = true
+        try {
+            int intOrgId = Integer.parseInt(organizationId);
             Filial filial = filialRepository.findFirstByOrganizationIdAndMatrixTrue(intOrgId);
 
             if (filial == null) {
@@ -531,19 +357,16 @@ public class SuiosrController {
                 response.put("result", filial);
             }
 
-            // Crear respuesta final
             response.put("status", status);
             response.put("message", message);
 
         } catch (NumberFormatException e) {
-            // Manejo de error: ID no numérico
             status = "400";
             message = "El ID de la organización debe ser un número válido.";
             response.put("status", status);
             response.put("message", message);
             response.put("error_details", e.getMessage());
         } catch (Exception e) {
-            // Manejo de cualquier otra excepción
             status = "500";
             message = "Ocurrió un error al procesar la solicitud.";
             response.put("status", status);
@@ -552,46 +375,33 @@ public class SuiosrController {
         }
 
         return response.toString();
-    }
+    }*/
+
     @GetMapping("findLocation/{idFilial}")
     public String findLocationFilial(@PathVariable Integer idFilial) {
         status = "200";
         try {
             List<Location> listLocations = locationRepository.findByFilialId(idFilial);
-            message="Datos encontrados";
-            JSONObject jo = createResponse(status,message);
+            message = "Datos encontrados";
+            JSONObject jo = createResponse(status, message);
             JSONObject tracingObject = new JSONObject();
             tracingObject.appendField("locations", listLocations);
             jo.appendField("data", tracingObject);
             return jo.toString();
         } catch (Exception e) {
-            status="400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
+            status = "400";
+            message = e.getMessage();
+            JSONObject jo = createResponse(status, message);
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
     }
 
-    @GetMapping("/fRepresentative/{id}")
-    public Member fRepresentative(@PathVariable Integer id) {
-        Member m = new Member();
-        List<Member> l = memberRepository.fRepresentative(id);
-        if(!l.isEmpty()){
-            m = l.get(0);
-        }
-        return m;
-    }
+    // ============================== OTROS ==============================
 
     @GetMapping("/fPersonByNationalityTypeNumber")
     public Person fPersonByNationalityTypeNumber(@RequestParam("id") int id, @RequestParam("type") String type, @RequestParam("number") String number) {
         DocumentType dt = EnumUtils.getEnum(DocumentType.class, type);
         return personRepository.findFirstByNationalityIdAndDocumentTypeAndDocumentNumber(id, dt, number);
     }
-
-    /*@GetMapping("/fMemberByOrgAndFilial")
-    public List<Member> fMemberByOrgAndFilial(@RequestParam("idOrg") Integer idOrg, @RequestParam("IdFilial") Integer IdFilial) {
-
-        return personRepository.findFirstByNationalityIdAndDocumentTypeAndDocumentNumber(id, dt, number);
-    }*/
 }

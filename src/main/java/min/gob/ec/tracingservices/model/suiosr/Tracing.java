@@ -17,10 +17,10 @@ import java.util.Date;
 @Setter
 @SequenceGenerator(name = "generic_sequence", sequenceName = "tracing_seq", allocationSize = 1)
 public class Tracing extends AbstractEntity {
-    @ManyToOne
+    /*@ManyToOne DEPURACION 2025
     @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private Organization organization;
+    private Organization organization;*/
 
     /*// DEPURACION 2025 
     @ManyToOne

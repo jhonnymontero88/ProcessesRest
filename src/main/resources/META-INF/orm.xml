@@ -13,6 +13,7 @@
         </attributes>
     </entity>-->
 
+    <!--
     <entity class="min.gob.ec.tracingservices.model.common.Menu">
         <attributes>
             <id name="id">
@@ -21,6 +22,7 @@
             </id>
         </attributes>
     </entity>
+    -->
 
     <entity class="min.gob.ec.tracingservices.model.common.Role">
         <attributes>
@@ -31,6 +33,7 @@
         </attributes>
     </entity>
 
+    <!--
     <entity class="min.gob.ec.tracingservices.model.common.RoleMenu">
         <attributes>
             <id name="id">
@@ -39,6 +42,7 @@
             </id>
         </attributes>
     </entity>
+    -->
 
     <entity class="min.gob.ec.tracingservices.model.common.User">
         <attributes>

@@ -15,10 +15,10 @@ import java.util.Date;
 @SequenceGenerator(name = "generic_sequence", sequenceName = "reform_seq", allocationSize = 1)
 public class Reform extends AbstractEntity {
     //ORGANIZACION
-    @ManyToOne
+    /*@ManyToOne DEPURACION 2025
     @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private Organization organization;
+    private Organization organization;*/
 
       //Tipo Reforma
       /*@ManyToOne DEPURACION 2025
@@ -39,5 +39,4 @@ public class Reform extends AbstractEntity {
     private boolean type_bool_reform;
     @Column(nullable = true)
     private String observation;
-
 }

@@ -15,9 +15,7 @@ public interface TracingRepository extends ListCrudRepository<Tracing, Integer> 
     @Query(value = "select o from min.gob.ec.tracingservices.model.suiosr.Tracing o order by o.observation")
     List<Tracing> fAllOByName();
 
-    @RestResource(path = "fAllOByOrganization")
+    /*@RestResource(path = "fAllOByOrganization") // DEPRACION 2025
     @Query(value = "select o from min.gob.ec.tracingservices.model.suiosr.Tracing o where o.organization.id = :idOrganization order by o.observation")
-    List<Tracing> fAllOByOrganization(int idOrganization);
-
-   
+    List<Tracing> fAllOByOrganization(int idOrganization);*/
 }

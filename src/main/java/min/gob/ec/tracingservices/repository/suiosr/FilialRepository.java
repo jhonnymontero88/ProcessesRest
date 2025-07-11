@@ -3,7 +3,7 @@ package min.gob.ec.tracingservices.repository.suiosr;
 
 import min.gob.ec.tracingservices.model.suiosr.Expedient;
 import min.gob.ec.tracingservices.model.suiosr.Filial;
-import min.gob.ec.tracingservices.model.suiosr.Organization;
+//import min.gob.ec.tracingservices.model.suiosr.Organization; DEPURACION 2025
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,9 +19,8 @@ public interface FilialRepository extends ListCrudRepository<Filial, Integer> {
     @RestResource(path = "fAllOByName")
     @Query(value = "select o from min.gob.ec.tracingservices.model.suiosr.Filial o")
     Page<Filial> fAllOByName(Pageable pageable);
-
     Filial findByName(String name);
-    Filial findFirstByOrganizationIdAndMatrixTrue(@Param("id") Integer id);
-    List<Filial> findByOrganizationIdOrderByName(@Param("id") int id);
+    //Filial findFirstByOrganizationIdAndMatrixTrue(@Param("id") Integer id);
+    //List<Filial> findByOrganizationIdOrderByName(@Param("id") int id);
 
 }

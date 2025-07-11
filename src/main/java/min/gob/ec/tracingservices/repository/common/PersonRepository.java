@@ -1,10 +1,10 @@
 package min.gob.ec.tracingservices.repository.common;
 
-import min.gob.ec.tracingservices.model.common.Charge;
+
 import min.gob.ec.tracingservices.model.common.DocumentType;
 import min.gob.ec.tracingservices.model.common.Person;
 import min.gob.ec.tracingservices.model.common.User;
-import min.gob.ec.tracingservices.model.suiosr.Organization;
+//import min.gob.ec.tracingservices.model.suiosr.Organization; DEPURACION 2025
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;

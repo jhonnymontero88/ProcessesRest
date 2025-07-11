@@ -1,7 +1,7 @@
 package min.gob.ec.tracingservices.controller;
 
-import min.gob.ec.tracingservices.repository.suiosr.OrganizationRepository;
-import min.gob.ec.tracingservices.model.suiosr.Organization;
+//import min.gob.ec.tracingservices.repository.suiosr.OrganizationRepository; DEPURACION 2025
+//import min.gob.ec.tracingservices.model.suiosr.Organization; DEPURACION 2025
 import min.gob.ec.tracingservices.service.common.RestDataService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +21,8 @@ public class SuiosrValidaciones {
     @Autowired
     private RestDataService restDataService;
 
-    @Autowired
-    private OrganizationRepository organizationRepository;
+    /*@Autowired DEPURACION 2025
+    private OrganizationRepository organizationRepository;*/
 
     String status = "";
     String message = "";
@@ -50,10 +50,10 @@ public class SuiosrValidaciones {
         status="200";
         try {
             // Validación: Verificar si el RUC existe en la base de datos
-            Organization organization = organizationRepository.findFirstByRuc(ruc);
+            /*Organization organization = organizationRepository.findFirstByRuc(ruc); DEPURACION 2025
             if (organization != null) {
                 throw new Exception("Ya existe una organización con el RUC indicado.");
-            }
+            }*/
 
             // Continuar con la consulta al endpoint
             List<Map<String, Object>> responses = restDataService.getRuc(ruc);

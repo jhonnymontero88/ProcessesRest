@@ -29,8 +29,8 @@ public class Expedient extends AbstractEntity {
     @Column(nullable = false)
     private String numFoja;
     //ORGANIZACIÓN(agregado)
-    @OneToOne(fetch = FetchType.EAGER)
+    /*@OneToOne(fetch = FetchType.EAGER) DEPURACION 2025
     @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private Organization organization;
+    private Organization organization;*/ 
 }

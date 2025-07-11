@@ -1,46 +1,32 @@
 package min.gob.ec.tracingservices.controller;
 
-import min.gob.ec.tracingservices.model.common.Charge;
 import min.gob.ec.tracingservices.model.common.Contact;
 import min.gob.ec.tracingservices.model.common.Files;
-import min.gob.ec.tracingservices.model.common.Member;
-import min.gob.ec.tracingservices.model.suiosr.Filial;
+//import min.gob.ec.tracingservices.model.suiosr.Organization; DEPURACION 2025
 import min.gob.ec.tracingservices.repository.common.ContactRepository;
-import min.gob.ec.tracingservices.model.suiosr.Organization;
 import min.gob.ec.tracingservices.repository.common.FilesRepository;
-import min.gob.ec.tracingservices.repository.common.MemberRepository;
-import min.gob.ec.tracingservices.repository.suiosr.OrganizationRepository;
+//import min.gob.ec.tracingservices.repository.suiosr.OrganizationRepository; DEPURACION 2025
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import static min.gob.ec.tracingservices.util.UtilSuiosr.createResponse;
-
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 @CrossOrigin
 @RestController
 @RequestMapping("suiosrupdate")
 public class SuiosrUpdateController {
 
-    @Autowired
-    private OrganizationRepository organizationRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private ContactRepository contactRepository;
+    //@Autowired private OrganizationRepository organizationRepository; DEPURACION 2025
+    @Autowired private ContactRepository contactRepository;
+    @Autowired private FilesRepository filesRepository;
 
     String status = "";
     String message = "";
-    @Autowired
-    private FilesRepository filesRepository;
 
-
-    @PatchMapping("savemember/{id}")
+    /*@PatchMapping("savemember/{id}") depuracion 2025
     public ResponseEntity<?> updateMember(@PathVariable Integer id, @RequestBody Map<String, Object> dataMember) {
         status="200";
         try {
@@ -100,9 +86,9 @@ public class SuiosrUpdateController {
             jo.appendField("error_details", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jo.toString());
         }
-    }
+    }*/
 
-    @GetMapping("getMemberByPersonAndFilial/{personId}/{filialId}/{chargeId}")
+    /*@GetMapping("getMemberByPersonAndFilial/{personId}/{filialId}/{chargeId}") depuracion 2025
     public ResponseEntity<?> getMemberByPersonAndFilial(@PathVariable Integer personId, @PathVariable Integer filialId, @PathVariable Integer chargeId) {
         try {
             Member existingMember = memberRepository.findByPersonChargeAndFilial(personId, filialId, chargeId);
@@ -115,13 +101,16 @@ public class SuiosrUpdateController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching member");
         }
-    }
+    }*/
 
     // DEPURACION 2025
     /*//CONTROLADOR PARA ACTUALIZAR UNA ORGANIZACIÓN
+
+    // POST - ACTUALIZAR ORGANIZACIÓN
+
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
-    public String updateOrganization (@RequestBody Organization organization){
-        status="200";
+    public String updateOrganization(@RequestBody Organization organization) {
+        status = "200";
         try {
             Organization organizationSelected = organizationRepository.findById(organization.getId()).orElse(null);
 
@@ -133,65 +122,81 @@ public class SuiosrUpdateController {
             if (organization.getTypeOrganization() != null) organizationSelected.setTypeOrganization(organization.getTypeOrganization());
             if (organization.getStatusOrganization() != null) organizationSelected.setStatusOrganization(organization.getStatusOrganization());
             if (organization.getCurrentReligious() != null) organizationSelected.setCurrentReligious(organization.getCurrentReligious());
+
             organizationRepository.save(organizationSelected);
-            message="Organización actualizada con éxito.";
-            JSONObject jo = createResponse(status,message);
+
+            message = "Organización actualizada con éxito.";
+            JSONObject jo = createResponse(status, message);
             jo.appendField("id_organization", organization.getId());
             return jo.toString();
+
         } catch (Exception e) {
-            status="400";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
+            status = "400";
+            message = e.getMessage();
+            JSONObject jo = createResponse(status, message);
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
     }*/
     
     // CONTROLADOR PARA ACTUALIZAR CONTACTO
+
+    // POST - ACTUALIZAR CONTACTO
+
     @RequestMapping(value = "/updatecontact", method = RequestMethod.POST)
     public ResponseEntity<String> updateContact(@RequestBody Contact contact) {
-        status="200";
+        status = "200";
         try {
             if (contact.getId() == null) {
                 return new ResponseEntity<>("El ID del contacto no puede ser nulo", HttpStatus.BAD_REQUEST);
             }
+
             Contact existingContact = contactRepository.findById(contact.getId()).orElse(null);
             if (existingContact == null) {
                 return new ResponseEntity<>("Contacto no encontrado", HttpStatus.NOT_FOUND);
             }
+
             existingContact.setEmail(contact.getEmail());
             existingContact.setPhone(contact.getPhone());
+
             contactRepository.save(existingContact);
-            message="Contacto actualziado con éxito";
-            JSONObject jo = createResponse(status,message);
+
+            message = "Contacto actualizado con éxito";
+            JSONObject jo = createResponse(status, message);
             jo.appendField("id", contact.getId());
             return new ResponseEntity<>(jo.toString(), HttpStatus.OK);
+
         } catch (Exception e) {
-            status="500";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
+            status = "500";
+            message = e.getMessage();
+            JSONObject jo = createResponse(status, message);
             jo.appendField("error_details", e.getMessage());
             return new ResponseEntity<>(jo.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // POST - ELIMINAR ARCHIVO
     @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
     public ResponseEntity<String> deleteFile(@RequestBody Files file) {
-        status="200";
+        status = "200";
         try {
-           Files existingFile = filesRepository.findById(file.getId()).orElse(null);
+            Files existingFile = filesRepository.findById(file.getId()).orElse(null);
             if (existingFile == null) {
                 return new ResponseEntity<>("Archivo no encontrado", HttpStatus.NOT_FOUND);
             }
-           // existingFile.setActive(false);
+
+            // existingFile.setActive(false); // Si deseas desactivar en vez de borrar
             filesRepository.save(existingFile);
-            message="Documento eliminado con éxito";
-            JSONObject jo = createResponse(status,message);
+
+            message = "Documento eliminado con éxito";
+            JSONObject jo = createResponse(status, message);
             jo.appendField("id", file.getId());
             return new ResponseEntity<>(jo.toString(), HttpStatus.OK);
+
         } catch (Exception e) {
-            status="500";
-            message=e.getMessage();
-            JSONObject jo = createResponse(status,message);
+            status = "500";
+            message = e.getMessage();
+            JSONObject jo = createResponse(status, message);
             jo.appendField("error_details", e.getMessage());
             return new ResponseEntity<>(jo.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

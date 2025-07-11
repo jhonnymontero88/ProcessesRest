@@ -1,6 +1,5 @@
-package min.gob.ec.tracingservices.repository.suiosr;
+/*package min.gob.ec.tracingservices.repository.suiosr; DEPUARACION 2025
 
-import min.gob.ec.tracingservices.model.common.Parish;
 import min.gob.ec.tracingservices.model.common.Person;
 import min.gob.ec.tracingservices.model.suiosr.Organization;
 import org.springframework.data.domain.Page;
@@ -57,4 +56,4 @@ public interface OrganizationRepository extends ListCrudRepository<Organization,
     @RestResource(path = "findByName", rel = "findByName")   
     Page<Organization> findByNameContainingIgnoreCase(@Param("query") String query, Pageable pageable);
 
-}
+}*/
