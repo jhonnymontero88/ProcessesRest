@@ -1,6 +1,6 @@
 package min.gob.ec.tracingservices.repository.common;
 
-import min.gob.ec.tracingservices.model.catalogs.CurrentReligious;
+//import min.gob.ec.tracingservices.model.catalogs.CurrentReligious; DEPURACION 2025
 import min.gob.ec.tracingservices.model.common.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;

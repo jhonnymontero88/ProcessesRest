@@ -1,12 +1,12 @@
-package min.gob.ec.tracingservices.model.suiosr;
+package min.gob.ec.tracingservices.model.suiosr; 
 
 import lombok.Getter;
 import lombok.Setter;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
-import min.gob.ec.tracingservices.model.catalogs.CurrentReligious;
+//import min.gob.ec.tracingservices.model.catalogs.CurrentReligious; DEPURACION 2025
 import min.gob.ec.tracingservices.model.common.Institution;
-import min.gob.ec.tracingservices.model.catalogs.StatusOrganization;
-import min.gob.ec.tracingservices.model.catalogs.TypeOrganization;
+//import min.gob.ec.tracingservices.model.catalogs.StatusOrganization; DEPURACION 2025
+//import min.gob.ec.tracingservices.model.catalogs.TypeOrganization; DEPURACION 2025
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import jakarta.persistence.*;
@@ -24,6 +24,7 @@ public class Organization extends AbstractEntity {
     @OneToOne
     @JoinColumn(name = "institution_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
+
     private Institution institution;
     //NOMBRE DE ORG
     @Column(nullable = false)
@@ -34,21 +35,26 @@ public class Organization extends AbstractEntity {
     //TELF
     @Column(nullable = false)
     private String phone;
+
     //ESTADO DE ORGANIZACION (CATALOGO)
-    @OneToOne(fetch = FetchType.EAGER)
+    /*@OneToOne(fetch = FetchType.EAGER) DEPURACION 2025
     @JoinColumn(name = "statusOrganization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private StatusOrganization statusOrganization;
+
+    private StatusOrganization statusOrganization;*/
+
     //TIPO DE ORGANIZACION (CATALOGO)
-    @OneToOne(fetch = FetchType.EAGER)
+    /*@OneToOne(fetch = FetchType.EAGER) DEPURACION 2025
     @JoinColumn(name = "typeOrganization_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private TypeOrganization typeOrganization;
+    private TypeOrganization typeOrganization;*/
+
     //CORRIENTE RELIGIOSA (CATALOGO)
-    @OneToOne(fetch = FetchType.EAGER)
+    /*@OneToOne(fetch = FetchType.EAGER) DEPURACION 2025
     @JoinColumn(name = "currentreligious_id", referencedColumnName = "id", nullable = false)
     @RestResource(exported = false)
-    private CurrentReligious currentReligious;
+    private CurrentReligious currentReligious;*/
+
     //NUM ACUERDO MINISTERIAL
     @Column(nullable = true)
     private String numAgreementMinisterial;

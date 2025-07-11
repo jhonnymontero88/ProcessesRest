@@ -3,7 +3,7 @@ package min.gob.ec.tracingservices.model.suiosr;
 import lombok.Getter;
 import lombok.Setter;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
-import min.gob.ec.tracingservices.model.catalogs.TypeProcedure;
+//import min.gob.ec.tracingservices.model.catalogs.TypeProcedure; DEPURACION 2025
 
 import org.springframework.data.rest.core.annotation.RestResource;
 
@@ -22,10 +22,11 @@ public class Tracing extends AbstractEntity {
     @RestResource(exported = false)
     private Organization organization;
 
+    /*// DEPURACION 2025 
     @ManyToOne
     @JoinColumn(name = "procedure_id", referencedColumnName = "id", nullable = true)
     @RestResource(exported = false)
-    private TypeProcedure typeprocedure;
+    private TypeProcedure typeprocedure;*/
 
     // Solicitado por
     @Column(nullable = false, length = 2048)

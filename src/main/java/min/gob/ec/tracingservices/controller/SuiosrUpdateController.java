@@ -117,7 +117,8 @@ public class SuiosrUpdateController {
         }
     }
 
-    //CONTROLADOR PARA ACTUALIZAR UNA ORGANIZACIÓN
+    // DEPURACION 2025
+    /*//CONTROLADOR PARA ACTUALIZAR UNA ORGANIZACIÓN
     @RequestMapping(value = "/organization", method = RequestMethod.POST)
     public String updateOrganization (@RequestBody Organization organization){
         status="200";
@@ -144,7 +145,8 @@ public class SuiosrUpdateController {
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
-    }
+    }*/
+    
     // CONTROLADOR PARA ACTUALIZAR CONTACTO
     @RequestMapping(value = "/updatecontact", method = RequestMethod.POST)
     public ResponseEntity<String> updateContact(@RequestBody Contact contact) {

@@ -119,7 +119,8 @@ public class SuiosrController {
         }
     }
 
-    //CONTROLADOR PARA CREAR NUEVA ORGANIZACIÓN (PrimerTAB)
+    // DEPURACION 2025
+    /*//CONTROLADOR PARA CREAR NUEVA ORGANIZACIÓN (PrimerTAB)
     @RequestMapping(value = "/saveorganization", method = RequestMethod.POST)
     public String saveOrganization (@RequestBody Organization organization){
         Organization organizationBD;
@@ -166,7 +167,7 @@ public class SuiosrController {
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
-    }
+    }*/
 
     //CONTROLADOR PARA CREAR REPRESENTANTE LEGAL
     @RequestMapping(value = "/legalrepresentative", method = RequestMethod.POST)
@@ -334,7 +335,8 @@ public class SuiosrController {
         }
     }
 
-    @GetMapping("findTracing/{idOrganizacion}")
+    //PRUEBAS 2025 DEPURACION
+    /*@GetMapping("findTracing/{idOrganizacion}")
     public String getTracing(@PathVariable Integer idOrganizacion) {
         status = "200";
         try {
@@ -377,7 +379,7 @@ public class SuiosrController {
             jo.appendField("error_details", e.getMessage());
             return jo.toString();
         }
-    }
+    }*/
     
 
 

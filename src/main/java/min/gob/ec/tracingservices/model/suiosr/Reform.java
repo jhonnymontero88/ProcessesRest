@@ -3,7 +3,7 @@ package min.gob.ec.tracingservices.model.suiosr;
 import lombok.Getter;
 import lombok.Setter;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
-import min.gob.ec.tracingservices.model.catalogs.TypeReform;
+//import min.gob.ec.tracingservices.model.catalogs.TypeReform; DEPURACION 2025
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import jakarta.persistence.*;
@@ -21,10 +21,10 @@ public class Reform extends AbstractEntity {
     private Organization organization;
 
       //Tipo Reforma
-      @ManyToOne
+      /*@ManyToOne DEPURACION 2025
       @JoinColumn(name = "typereform_id", referencedColumnName = "id", nullable = false)
       @RestResource(exported = false)
-      private TypeReform typereform;
+      private TypeReform typereform;*/
 
     //NUM DE ACUERDO MINISTERIAL DE REFORMA
     @Column(nullable = false)

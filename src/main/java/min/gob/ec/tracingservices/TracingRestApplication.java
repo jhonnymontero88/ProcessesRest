@@ -3,7 +3,7 @@ package min.gob.ec.tracingservices;
 import min.gob.ec.tracingservices.model.catalogs.*;
 import min.gob.ec.tracingservices.model.common.*;
 import min.gob.ec.tracingservices.model.suiosr.*;
-import min.gob.ec.tracingservices.model.notifications.Notification;
+//import min.gob.ec.tracingservices.model.notifications.Notification; DEPURACION 2025
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +28,7 @@ public class TracingRestApplication {
     @Bean
     public RepositoryRestConfigurer repositoryRestConfigurer(){
         return RepositoryRestConfigurer.withConfig(config -> {
-            config.exposeIdsFor(Notification.class);
+            //config.exposeIdsFor(Notification.class); DEPURACION 2025
             config.exposeIdsFor(Role.class);
             config.exposeIdsFor(Menu.class);
             config.exposeIdsFor(User.class);
@@ -40,11 +40,11 @@ public class TracingRestApplication {
             config.exposeIdsFor(Canton.class);
             config.exposeIdsFor(Parish.class);
             config.exposeIdsFor(Province.class);
-            config.exposeIdsFor(CurrentReligious.class);
-            config.exposeIdsFor(StatusOrganization.class);
-            config.exposeIdsFor(TypeOrganization.class);
-            config.exposeIdsFor(TypeReform.class);
-            config.exposeIdsFor(TypeProcedure.class);
+            //config.exposeIdsFor(CurrentReligious.class); DEPURACION 2025
+            //config.exposeIdsFor(StatusOrganization.class); DEPURACION 2025
+            //config.exposeIdsFor(TypeOrganization.class); DEPURACION 2025
+            //config.exposeIdsFor(TypeReform.class); DEPURACION 2025
+            //config.exposeIdsFor(TypeProcedure.class); DEPURACION 2025
             config.exposeIdsFor(Institution.class);
             config.exposeIdsFor(Charge.class);
             config.exposeIdsFor(Expedient.class);

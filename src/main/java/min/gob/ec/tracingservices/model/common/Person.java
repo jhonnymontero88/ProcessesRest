@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import min.gob.ec.tracingservices.audit.AbstractEntity;
 import min.gob.ec.tracingservices.model.catalogs.Nationality;
-import min.gob.ec.tracingservices.model.catalogs.StatusOrganization;
+//import min.gob.ec.tracingservices.model.catalogs.StatusOrganization; DEPUTACION 2025
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import jakarta.persistence.*;
